@@ -1,0 +1,87 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>View List</title>
+        {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <!-- top -->
+            <div class="row">
+                <div class="col-lg-5">
+                    <h1>View Grocery List</h1>
+                </div>
+                <div class="col-lg-2">
+                    <h2><a href="add/">Add </a></h2>
+                </div>
+                <div class="col-lg-5 float-right">
+                    <form class="site-form" action="{% url 'info:filter' %}" method="post">
+                        {% csrf_token %}
+                    <div class="row" >
+                        <div class="col-lg-8">
+                            <!-- Date Filtering-->
+                            <label for="date"></label>
+                            <input id="date" name="date" type="date" class="form-control">
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="submit" class="btn btn-danger" value="filter">
+                        </div>
+                        
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <!-- // top -->
+            <!-- Grocery Cards -->
+            <div class="row mt-4">
+                <!--- -->
+                <!-- Loop This -->
+                {% for d in data %}
+                <div class="col-lg-4" style="margin-bottom: 30px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <h1>{{d.date}}</h1> -->
+                          <h5 class="card-title">{{d.name}}</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">{{d.quantity}}</h6>
+                          <!-- {{d.status}} -->
+                          {% if d.status == 1%}
+                          <p class="text-success">BOUGHT</p>
+                          {% elif d.status == 2%}
+                          <p class="text-info">PENDING</p>
+                          {% else %}
+                          <p class="text-danger">NOT AVAILABLE</p>
+                          {% endif %}
+                          <a href="/delete/{{ d.id }}">Delete</a>
+                          <a href="/edit/{{ d.id }}">Update</a>
+                        </div>
+                      </div>
+                </div>
+                
+                {% endfor %}
+                <!-- // Loop -->
+                <!-- <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Chicken</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">2Kgs</h6>
+                          <p class="text-danger">NOT AVAILABLE</p>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Posto</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">50gms</h6>
+                          <p class="text-info">PENDING</p>
+                        </div>
+                      </div>
+                </div> -->
+
+            </div>
+        </div>
+    </body>
+</html>
